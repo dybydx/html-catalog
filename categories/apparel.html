@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse branded polos, caps, and jackets for corporate gifting at Gifting Catalogue.">
+  <title>Apparel &amp; Wearables — Gifting Catalogue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-page="category" data-category="apparel">
+  <header class="site-header" data-site-header></header>
+
+  <main>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <span data-breadcrumb-category>Apparel &amp; Wearables</span>
+      </nav>
+
+      <div class="category-layout">
+        <aside class="category-sidebar">
+          <nav class="sidebar-nav" data-sidebar-nav aria-label="Category navigation"></nav>
+        </aside>
+
+        <div class="category-main">
+          <div class="category-chips" data-category-chips aria-label="Category quick links"></div>
+
+          <div class="category-header">
+            <h1 data-category-title>Apparel &amp; Wearables</h1>
+            <p data-category-desc></p>
+          </div>
+
+          <div class="category-toolbar">
+            <input type="search" class="search-input" data-product-search placeholder="Search products…" aria-label="Search products">
+            <span class="product-count" data-product-count></span>
+          </div>
+
+          <div class="product-grid" data-product-grid></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+
+  <script src="../data/products.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
