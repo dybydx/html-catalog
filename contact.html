@@ -7,15 +7,22 @@
   <title>Contact — Gifting Catalogue</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="images/favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="images/favicons/site.webmanifest">
 </head>
 <body data-page="contact">
   <header class="site-header" data-site-header></header>
 
   <main>
-    <section class="hero" style="padding: 3rem 0;">
-      <div class="container">
+    <section class="hero page-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <p class="hero-eyebrow">Get in Touch</p>
         <h1>Contact Us</h1>
         <p>Get a custom quote for your corporate gifting needs. We typically respond within one business day.</p>
       </div>
@@ -23,9 +30,9 @@
 
     <section class="section">
       <div class="container contact-layout">
-        <div class="contact-info">
+        <div class="contact-info reveal">
           <h2>Let's Talk Gifting</h2>
-          <p>Whether you're planning a single event or an ongoing employee rewards program, our team is here to help you find the perfect products at the right price point.</p>
+          <p>Whether you're planning a single event or an ongoing employee rewards program, our team is here to help you find the perfect products for your needs.</p>
 
           <div class="contact-details">
             <div class="contact-detail">
@@ -67,7 +74,11 @@
           </div>
         </div>
 
-        <div class="contact-form-wrapper">
+        <div class="contact-form-wrapper reveal">
+          <div class="form-header">
+            <h3>Request a Quote</h3>
+            <p>Fill in your details and we'll get back to you with a tailored proposal.</p>
+          </div>
           <form data-contact-form novalidate>
             <div class="form-group">
               <label for="name">Full Name *</label>

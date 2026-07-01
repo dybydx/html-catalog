@@ -7,46 +7,128 @@
   <title>Gifting Catalogue — Corporate Gifting Catalog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="images/favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="images/favicons/site.webmanifest">
 </head>
 <body data-page="home">
   <header class="site-header" data-site-header></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
+    <section class="hero hero-home">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <p class="hero-eyebrow">Corporate Gifting, Simplified</p>
         <h1>Elevate Your Corporate Gifting</h1>
         <p>Premium branded gifts for clients, employees, and events. Browse our catalog and request a custom quote today.</p>
         <div class="hero-actions">
           <a href="#categories" class="btn btn-primary">Browse Categories</a>
           <a href="contact.html" class="btn btn-outline">Request a Quote</a>
         </div>
+        <div class="hero-trust">
+          <span>500+ Corporate Clients</span>
+          <span>Pan-India Delivery</span>
+          <span>Custom Branding</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div class="container trust-strip-grid">
+        <div class="trust-item reveal">
+          <div class="trust-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <strong>Quality Assured</strong>
+            <span>Every product vetted for finish and durability</span>
+          </div>
+        </div>
+        <div class="trust-item reveal">
+          <div class="trust-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <strong>Fast Response</strong>
+            <span>Quotes within one business day</span>
+          </div>
+        </div>
+        <div class="trust-item reveal">
+          <div class="trust-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div>
+            <strong>Custom Branding</strong>
+            <span>Logo printing, engraving, and packaging</span>
+          </div>
+        </div>
+        <div class="trust-item reveal">
+          <div class="trust-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <strong>Flexible MOQs</strong>
+            <span>From small teams to large campaigns</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section" id="categories">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Our Catalog</p>
           <h2>Shop by Category</h2>
-          <p>Explore our curated collection of corporate gifts across eight premium categories.</p>
+          <p>Explore our curated collection of corporate gifts across premium categories.</p>
         </div>
         <div class="category-grid" data-category-grid></div>
       </div>
     </section>
 
-    <section class="section" style="background: var(--color-bg-white);">
+    <section class="section section-alt">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Popular Picks</p>
           <h2>Featured Products</h2>
-          <p>Popular picks trusted by leading companies for onboarding, events, and client appreciation.</p>
+          <p>Trusted by leading companies for onboarding, events, and client appreciation.</p>
         </div>
         <div class="product-grid" data-featured-products></div>
       </div>
     </section>
 
-    <section class="cta-banner">
+    <section class="section how-it-works">
       <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Simple Process</p>
+          <h2>How It Works</h2>
+          <p>Getting started is easy — browse, request a quote, and we handle the rest.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">1</div>
+            <h3>Browse &amp; Select</h3>
+            <p>Explore categories and pick products that fit your occasion, team size, and brand.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">2</div>
+            <h3>Request a Quote</h3>
+            <p>Tell us quantities, customization needs, and timeline. We respond within one business day.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">3</div>
+            <h3>Receive &amp; Delight</h3>
+            <p>We produce, brand, and deliver nationwide — ready to impress your recipients.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-banner">
+      <div class="container reveal">
         <h2>Need a Custom Gift Solution?</h2>
         <p>Tell us about your event, budget, and branding requirements. Our team will curate the perfect package.</p>
         <a href="contact.html" class="btn btn-primary">Get in Touch</a>

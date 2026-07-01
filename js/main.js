@@ -21,6 +21,10 @@
     return PRODUCTS.find((p) => p.id === id);
   }
 
+  function renderLogo() {
+    return `<img src="${basePath}/images/logo.png" alt="Gifting Catalogue" class="logo-img" width="150" height="50">`;
+  }
+
   /* ── Header / Footer injection ── */
 
   function renderHeader() {
@@ -46,10 +50,7 @@
 
     header.innerHTML = `
       <div class="container header-inner">
-        <a href="${basePath}/index.html" class="logo">
-          <span class="logo-icon">GC</span>
-          <span>Gifting Catalogue</span>
-        </a>
+        <a href="${basePath}/index.html" class="logo">${renderLogo()}</a>
 
         <nav aria-label="Main navigation">
           <ul class="nav-desktop">
@@ -65,20 +66,20 @@
           </ul>
         </nav>
 
-        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
-          <span class="nav-toggle-icon">
-            <span></span><span></span><span></span>
-          </span>
-        </button>
+        <div class="header-actions">
+          <a href="${basePath}/contact.html" class="btn btn-primary nav-cta">Request Quote</a>
+          <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+            <span class="nav-toggle-icon">
+              <span></span><span></span><span></span>
+            </span>
+          </button>
+        </div>
       </div>
 
       <div class="nav-overlay" aria-hidden="true"></div>
       <nav class="nav-drawer" aria-label="Mobile navigation" aria-hidden="true">
         <div class="nav-drawer-header">
-          <a href="${basePath}/index.html" class="logo">
-            <span class="logo-icon">GC</span>
-            <span>Gifting Catalogue</span>
-          </a>
+          <a href="${basePath}/index.html" class="logo">${renderLogo()}</a>
           <button class="nav-drawer-close" aria-label="Close menu">&times;</button>
         </div>
         <div class="nav-drawer-links">
@@ -90,10 +91,50 @@
           <h4>Categories</h4>
           ${drawerCategoryLinks}
         </div>
+        <div class="nav-drawer-cta">
+          <a href="${basePath}/contact.html" class="btn btn-primary">Request a Quote</a>
+        </div>
       </nav>
     `;
 
     initNavigation();
+    initHeaderScroll();
+  }
+
+  function initHeaderScroll() {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+
+    function updateScroll() {
+      header.classList.toggle("scrolled", window.scrollY > 8);
+    }
+
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+  }
+
+  function initScrollReveal() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    document.querySelectorAll(".reveal:not([data-reveal-observed])").forEach((el) => {
+      el.setAttribute("data-reveal-observed", "");
+      observer.observe(el);
+    });
   }
 
   function renderFooter() {
@@ -108,10 +149,7 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a href="${basePath}/index.html" class="logo">
-              <span class="logo-icon">GC</span>
-              <span>Gifting Catalogue</span>
-            </a>
+            <a href="${basePath}/index.html" class="logo">${renderLogo()}</a>
             <p>Premium corporate gifting solutions for businesses of all sizes. Custom branding, bulk orders, and nationwide delivery.</p>
           </div>
           <div class="footer-col">
@@ -196,13 +234,27 @@
 
   /* ── Product Card ── */
 
-  function renderProductCard(product) {
+  function renderProductImage(product, context) {
+    if (product.image) {
+      const imgPath = `${basePath}/${product.image}`;
+      const alt = product.name;
+      if (context === "modal") {
+        return `<div class="modal-image"><img src="${imgPath}" alt="${alt}"></div>`;
+      }
+      return `<div class="product-card-image"><img src="${imgPath}" alt="${alt}" loading="lazy"><span class="product-card-hint">View details</span></div>`;
+    }
+
     const initials = getInitials(product.name);
+    if (context === "modal") {
+      return `<div class="modal-image product-image-placeholder" style="background: linear-gradient(135deg, ${product.color}, ${product.color}99)">${initials}</div>`;
+    }
+    return `<div class="product-card-image product-image-placeholder" style="background: linear-gradient(135deg, ${product.color}, ${product.color}99)">${initials}<span class="product-card-hint">View details</span></div>`;
+  }
+
+  function renderProductCard(product) {
     return `
       <article class="product-card" data-product-id="${product.id}" tabindex="0" role="button" aria-label="View ${product.name}">
-        <div class="product-card-image" style="background: linear-gradient(135deg, ${product.color}, ${product.color}99)">
-          ${initials}
-        </div>
+        ${renderProductImage(product)}
         <div class="product-card-body">
           <h3>${product.name}</h3>
           <p>${product.description}</p>
@@ -211,12 +263,11 @@
             <span class="product-tag">${product.sku}</span>
           </div>
           <div class="product-card-footer">
-            <span class="product-price">${product.priceRange}</span>
             <button class="btn btn-primary btn-sm" data-quote-id="${product.id}">Request Quote</button>
           </div>
         </div>
       </article>
-    `;
+    `.trim();
   }
 
   function bindProductCards(container) {
@@ -278,14 +329,11 @@
 
     const overlay = ensureModal();
     const modal = overlay.querySelector(".modal");
-    const initials = getInitials(product.name);
     const category = getCategory(product.category);
 
     modal.innerHTML = `
       <div class="modal-header-wrap">
-        <div class="modal-image" style="background: linear-gradient(135deg, ${product.color}, ${product.color}99)">
-          ${initials}
-        </div>
+        ${renderProductImage(product, "modal")}
         <button class="modal-close" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
@@ -294,7 +342,6 @@
           <span class="product-tag">${category ? category.name : product.category}</span>
           <span class="product-tag">SKU: ${product.sku}</span>
           <span class="product-tag">MOQ: ${product.moq}</span>
-          <span class="product-tag">${product.priceRange}</span>
         </div>
         <p>${product.description}</p>
         <div class="modal-section">
@@ -327,21 +374,35 @@
     document.body.style.overflow = "";
   }
 
+  function renderCategoryCardImage(slug, name) {
+    const imgPath = `${basePath}/images/categories/${slug}.jpg`;
+    return `
+      <div class="category-card-image">
+        <img src="${imgPath}" alt="${name} corporate gifts" loading="lazy" width="720" height="480">
+      </div>
+    `;
+  }
+
   /* ── Home Page ── */
 
   function initHome() {
     const categoryGrid = document.querySelector("[data-category-grid]");
     if (categoryGrid) {
-      categoryGrid.innerHTML = CATEGORIES.map(
-        (cat) => `
-          <a href="${basePath}/categories/${cat.slug}.html" class="category-card">
-            ${renderCategoryIcon(cat.slug, "category-card-icon")}
-            <h3>${cat.name}</h3>
-            <p>${cat.description}</p>
-            <span class="category-card-link">Browse products →</span>
+      categoryGrid.innerHTML = CATEGORIES.map((cat) => {
+        const count = PRODUCTS.filter((p) => p.category === cat.slug).length;
+        return `
+          <a href="${basePath}/categories/${cat.slug}.html" class="category-card reveal">
+            ${renderCategoryCardImage(cat.slug, cat.name)}
+            <div class="category-card-body">
+              <span class="category-card-count">${count} product${count !== 1 ? "s" : ""}</span>
+              <h3>${cat.name}</h3>
+              <p>${cat.description}</p>
+              <span class="category-card-link">Browse products →</span>
+            </div>
           </a>
-        `
-      ).join("");
+        `;
+      }).join("");
+      initScrollReveal();
     }
 
     const featuredGrid = document.querySelector("[data-featured-products]");
@@ -364,10 +425,23 @@
     const titleEl = document.querySelector("[data-category-title]");
     const descEl = document.querySelector("[data-category-desc]");
     const breadcrumbEl = document.querySelector("[data-breadcrumb-category]");
+    const headerEl = document.querySelector(".category-header");
 
     if (titleEl) titleEl.textContent = category.name;
     if (descEl) descEl.textContent = category.description;
     if (breadcrumbEl) breadcrumbEl.textContent = category.name;
+
+    if (headerEl && titleEl && descEl) {
+      const titleText = titleEl.textContent;
+      const descText = descEl.textContent;
+      headerEl.innerHTML = `
+        <div class="category-header-icon">${renderCategoryIcon(slug)}</div>
+        <div class="category-header-text">
+          <h1 data-category-title>${titleText}</h1>
+          <p data-category-desc>${descText}</p>
+        </div>
+      `;
+    }
 
     document.title = `${category.name} — Gifting Catalogue`;
 
@@ -471,6 +545,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     renderHeader();
     renderFooter();
+    initScrollReveal();
 
     const page = document.body.dataset.page;
     if (page === "home") initHome();
