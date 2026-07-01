@@ -1,0 +1,40 @@
+---
+description: Gifting Catalogue project stack, structure, and core conventions
+alwaysApply: true
+---
+
+# Gifting Catalogue — Project Overview
+
+Plain static HTML/CSS/JS corporate gifting catalog. **No build step, no framework.**
+
+## Branding
+- Company name: **Gifting Catalogue**
+- Logo initials: **GC**
+- Do not reintroduce "GiftForge" naming
+
+## Structure
+```
+index.html, about.html, contact.html   # root pages
+categories/*.html                      # one page per category slug
+css/styles.css                         # all styles + responsive breakpoints
+js/main.js                           # nav, rendering, modal, forms
+js/icons.js                          # SVG category icons via renderCategoryIcon()
+data/products.js                     # CATEGORIES + PRODUCTS (single source of truth)
+```
+
+## Key patterns
+- Header/footer injected by `main.js` into `[data-site-header]` and `[data-site-footer]`
+- Category pages use `body data-page="category" data-category="<slug>"`
+- Root pages use `data-page="home" | "about" | "contact"`
+- Icons are SVG only — never emojis for categories or UI chrome
+
+## Constraints
+- Do not add npm/build tooling unless explicitly requested
+- Do not start a dev server — user runs it themselves
+- Keep changes minimal and match existing patterns
+- Contact form is client-side demo only (no backend)
+
+## Deployment
+- GitHub: `dybydx/html-catalog`
+- Cloudflare Pages project: `html-catalog` → https://html-catalog.pages.dev
+- Deploy: `wrangler pages deploy . --project-name=html-catalog --branch=main`

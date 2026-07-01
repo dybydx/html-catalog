@@ -1,0 +1,55 @@
+---
+description: HTML page structure and conventions for Gifting Catalogue
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# HTML Pages
+
+## Script load order (required)
+```html
+<script src="data/products.js"></script>   <!-- or ../data/products.js in categories/ -->
+<script src="js/icons.js"></script>        <!-- or ../js/icons.js -->
+<script src="js/main.js"></script>
+```
+
+## Root vs category paths
+| Location | CSS | Scripts |
+|----------|-----|---------|
+| Root (`index.html`, `about.html`, `contact.html`) | `css/styles.css` | `data/`, `js/` |
+| `categories/*.html` | `../css/styles.css` | `../data/`, `../js/` |
+
+## Body data attributes
+```html
+<!-- Home -->
+<body data-page="home">
+
+<!-- About / Contact -->
+<body data-page="about">
+<body data-page="contact">
+
+<!-- Category (slug must match data/products.js) -->
+<body data-page="category" data-category="drinkware">
+```
+
+## Shared shell
+Every page includes empty placeholders — do not hardcode header/footer HTML:
+```html
+<header class="site-header" data-site-header></header>
+<footer class="site-footer" data-site-footer></footer>
+```
+
+## Category page template
+Required hooks for `initCategoryPage()`:
+- `[data-breadcrumb-category]`, `[data-category-title]`, `[data-category-desc]`
+- `[data-sidebar-nav]`, `[data-category-chips]`
+- `[data-product-search]`, `[data-product-count]`, `[data-product-grid]`
+
+## Titles and meta
+- Format: `{Page or Category} — Gifting Catalogue`
+- Meta descriptions should mention Gifting Catalogue and the page topic
+
+## Adding a new category
+1. Add entry to `CATEGORIES` in `data/products.js`
+2. Add SVG to `CATEGORY_ICONS` in `js/icons.js`
+3. Copy an existing `categories/*.html` and update `data-category`, title, meta

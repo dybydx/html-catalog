@@ -1,0 +1,37 @@
+---
+description: JavaScript and catalog data conventions
+globs: "{js/**/*.js,data/**/*.js}"
+alwaysApply: false
+---
+
+# JavaScript & Data
+
+## Data model (`data/products.js`)
+- `CATEGORIES`: `{ slug, name, description }` — slug drives URLs and icon lookup
+- `PRODUCTS`: `{ id, name, category, description, sku, moq, priceRange, featured, specs, customization, color }`
+- `category` on products must match a category `slug`
+- Product `color` is used for gradient placeholder images (initials overlay)
+
+## Icons (`js/icons.js`)
+- `CATEGORY_ICONS` keyed by category slug
+- Always use `renderCategoryIcon(slug, className)` — never inline emojis
+
+## Main app (`js/main.js`)
+- IIFE with `"use strict"` — no modules/build step
+- `basePath` is `".."` only inside `/categories/`, otherwise `"."`
+- Header/footer rendered on `DOMContentLoaded`
+- Page init keyed off `document.body.dataset.page`
+
+## Adding products
+Edit `PRODUCTS` in `data/products.js` only. Grids, modals, and contact dropdown populate automatically.
+
+## Product modal
+Opened by clicking `.product-card` or keyboard Enter/Space. Quote buttons link to:
+```
+contact.html?product=${encodeURIComponent(product.name)}
+```
+
+## Do not
+- Introduce bundlers, TypeScript, or npm dependencies without explicit request
+- Duplicate product/category data in HTML files
+- Break script load order (products → icons → main)

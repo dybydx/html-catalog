@@ -1,0 +1,32 @@
+---
+description: Git commit and Cloudflare Pages deploy workflow
+alwaysApply: false
+---
+
+# Git & Deploy
+
+## Git
+- Remote: `https://github.com/dybydx/html-catalog.git`
+- Default branch: `main`
+- Only commit when the user explicitly asks
+- Never update git config, force-push main, or skip hooks
+
+## Commit message style
+One concise sentence focused on **why**, e.g.:
+```
+Make category sidebar sticky on large screens.
+```
+
+## Deploy to Cloudflare Pages
+After push (when requested):
+```bash
+wrangler pages deploy . --project-name=html-catalog --branch=main
+```
+
+- **No build command** — static files deploy from project root
+- Production URL: https://html-catalog.pages.dev
+- Cloudflare account: WebWeaver
+
+## What not to deploy
+- `.git/`, `.cursor/` (not part of site assets anyway)
+- Secrets or `.env` files
