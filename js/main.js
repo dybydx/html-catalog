@@ -67,6 +67,7 @@
         </nav>
 
         <div class="header-actions">
+          <a href="${basePath}/catalogue.html" class="btn btn-outline btn-sm nav-download">Download Catalogue</a>
           <a href="${basePath}/contact.html" class="btn btn-primary nav-cta">Request Quote</a>
           <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
             <span class="nav-toggle-icon">
@@ -86,6 +87,7 @@
           <a href="${basePath}/index.html" class="${currentPage === "home" ? "active" : ""}">Home</a>
           <a href="${basePath}/about.html" class="${currentPage === "about" ? "active" : ""}">About</a>
           <a href="${basePath}/contact.html" class="${currentPage === "contact" ? "active" : ""}">Contact</a>
+          <a href="${basePath}/catalogue.html" class="${currentPage === "catalogue" ? "active" : ""}">Download Catalogue</a>
         </div>
         <div class="nav-drawer-categories">
           <h4>Categories</h4>
@@ -141,9 +143,16 @@
     const footer = document.querySelector("[data-site-footer]");
     if (!footer) return;
 
-    const categoryLinks = CATEGORIES.map(
-      (cat) => `<a href="${basePath}/categories/${cat.slug}.html">${cat.name}</a>`
-    ).join("");
+    const renderCategoryLinks = (categories) =>
+      categories
+        .map((cat) => `<a href="${basePath}/categories/${cat.slug}.html">${cat.name}</a>`)
+        .join("");
+
+    const mid = Math.ceil(CATEGORIES.length / 2);
+    const categoryCols = [
+      renderCategoryLinks(CATEGORIES.slice(0, mid)),
+      renderCategoryLinks(CATEGORIES.slice(mid)),
+    ];
 
     footer.innerHTML = `
       <div class="container">
@@ -152,14 +161,18 @@
             <a href="${basePath}/index.html" class="logo">${renderLogo()}</a>
             <p>Premium corporate gifting solutions for businesses of all sizes. Custom branding, bulk orders, and nationwide delivery.</p>
           </div>
-          <div class="footer-col">
+          <div class="footer-col footer-categories">
             <h4>Categories</h4>
-            ${categoryLinks}
+            <div class="footer-categories-cols">
+              <div>${categoryCols[0]}</div>
+              <div>${categoryCols[1]}</div>
+            </div>
           </div>
           <div class="footer-col">
             <h4>Company</h4>
             <a href="${basePath}/about.html">About Us</a>
             <a href="${basePath}/contact.html">Contact</a>
+            <a href="${basePath}/catalogue.html">Download Catalogue</a>
             <a href="${basePath}/contact.html">Request a Quote</a>
           </div>
         </div>
@@ -516,6 +529,92 @@
     }
   }
 
+  /* ── Catalogue Page ── */
+
+  function renderCatalogueProduct(product) {
+    const imgPath = `${basePath}/${product.image}`;
+    return `
+      <article class="catalogue-product">
+        <div class="catalogue-product-image">
+          <img src="${imgPath}" alt="${product.name}" loading="lazy">
+        </div>
+        <div class="catalogue-product-body">
+          <h3>${product.name}</h3>
+          <p class="catalogue-product-desc">${product.description}</p>
+          <dl class="catalogue-product-meta">
+            <div><dt>SKU</dt><dd>${product.sku}</dd></div>
+            <div><dt>MOQ</dt><dd>${product.moq}</dd></div>
+            <div><dt>Price</dt><dd>${product.priceRange}</dd></div>
+          </dl>
+        </div>
+      </article>
+    `.trim();
+  }
+
+  function initCataloguePage() {
+    const container = document.querySelector("[data-catalogue-content]");
+    if (!container) return;
+
+    const year = new Date().getFullYear();
+    const totalProducts = PRODUCTS.length;
+    const totalCategories = CATEGORIES.length;
+
+    const categorySections = CATEGORIES.map((cat) => {
+      const products = PRODUCTS.filter((p) => p.category === cat.slug);
+      if (products.length === 0) return "";
+
+      return `
+        <section class="catalogue-section" id="cat-${cat.slug}">
+          <header class="catalogue-section-header">
+            <span class="catalogue-section-icon">${renderCategoryIcon(cat.slug)}</span>
+            <div>
+              <h2>${cat.name}</h2>
+              <p>${cat.description}</p>
+            </div>
+          </header>
+          <div class="catalogue-product-grid">
+            ${products.map(renderCatalogueProduct).join("")}
+          </div>
+        </section>
+      `;
+    }).join("");
+
+    container.innerHTML = `
+      <section class="catalogue-cover">
+        <img src="${basePath}/images/logo.webp" alt="Gifting Catalogue" class="catalogue-cover-logo" width="200" height="67">
+        <p class="catalogue-cover-eyebrow">Corporate Gifting Catalogue</p>
+        <h1>Premium Branded Gifts for Business</h1>
+        <p class="catalogue-cover-summary">${totalProducts} products across ${totalCategories} categories — custom branding, bulk orders, and nationwide delivery.</p>
+        <ul class="catalogue-cover-stats">
+          <li><strong>500+</strong> Corporate Clients</li>
+          <li><strong>Pan-India</strong> Delivery</li>
+          <li><strong>Custom</strong> Branding</li>
+        </ul>
+        <div class="catalogue-cover-contact">
+          <p>info@ashwasales.com &nbsp;·&nbsp; +91 9876543210</p>
+        </div>
+        <p class="catalogue-cover-year">${year} Edition</p>
+      </section>
+      ${categorySections}
+      <section class="catalogue-back-cover">
+        <h2>Request a Custom Quote</h2>
+        <p>Tell us about your event, quantities, and branding needs. We typically respond within one business day.</p>
+        <p class="catalogue-back-contact">info@ashwasales.com &nbsp;·&nbsp; +91 9876543210</p>
+      </section>
+    `;
+
+    const printBtn = document.querySelector("[data-catalogue-print]");
+    if (printBtn) {
+      printBtn.addEventListener("click", () => window.print());
+    }
+
+    if (new URLSearchParams(window.location.search).get("print") === "1") {
+      window.addEventListener("load", () => {
+        setTimeout(() => window.print(), 300);
+      });
+    }
+  }
+
   /* ── Contact Page ── */
 
   function initContactPage() {
@@ -564,6 +663,7 @@
     const page = document.body.dataset.page;
     if (page === "home") initHome();
     if (page === "category") initCategoryPage();
+    if (page === "catalogue") initCataloguePage();
     if (page === "contact") initContactPage();
   });
 })();

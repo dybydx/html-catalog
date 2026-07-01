@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Download the full Gifting Catalogue — 65 corporate gifting products across 13 categories with images, SKUs, and pricing.">
+  <title>Download Catalogue — Gifting Catalogue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="images/favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="images/favicons/site.webmanifest">
+</head>
+<body data-page="catalogue">
+  <header class="site-header" data-site-header></header>
+
+  <main class="catalogue-page">
+    <div class="catalogue-toolbar no-print">
+      <div class="container catalogue-toolbar-inner">
+        <div class="catalogue-toolbar-text">
+          <strong>Save as PDF</strong>
+          <span>Open the print dialog and choose &ldquo;Save as PDF&rdquo; to download this catalogue.</span>
+        </div>
+        <button type="button" class="btn btn-primary" data-catalogue-print>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Catalogue
+        </button>
+      </div>
+    </div>
+
+    <div class="catalogue-document" data-catalogue-content></div>
+  </main>
+
+  <footer class="site-footer no-print" data-site-footer></footer>
+
+  <script src="data/products.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
