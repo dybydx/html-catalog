@@ -41,7 +41,7 @@ Every page includes empty placeholders — do not hardcode header/footer HTML:
 
 ## Category page template
 Required hooks for `initCategoryPage()`:
-- `[data-breadcrumb-category]`, `[data-category-title]`, `[data-category-desc]`
+- `[data-category-hero]` — hero banner (image, breadcrumb, title, description injected by JS)
 - `[data-sidebar-nav]`, `[data-category-chips]`
 - `[data-product-search]`, `[data-product-count]`, `[data-product-grid]`
 

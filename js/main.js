@@ -22,7 +22,7 @@
   }
 
   function renderLogo() {
-    return `<img src="${basePath}/images/logo.png" alt="Gifting Catalogue" class="logo-img" width="150" height="50">`;
+    return `<img src="${basePath}/images/logo.webp" alt="Gifting Catalogue" class="logo-img" width="150" height="50">`;
   }
 
   /* ── Header / Footer injection ── */
@@ -374,11 +374,37 @@
     document.body.style.overflow = "";
   }
 
+  function getCategoryImagePath(slug) {
+    return `${basePath}/images/categories/${slug}.webp`;
+  }
+
   function renderCategoryCardImage(slug, name) {
-    const imgPath = `${basePath}/images/categories/${slug}.jpg`;
+    const imgPath = getCategoryImagePath(slug);
     return `
       <div class="category-card-image">
         <img src="${imgPath}" alt="${name} corporate gifts" loading="lazy" width="720" height="480">
+      </div>
+    `;
+  }
+
+  function renderCategoryHero(category, slug) {
+    const imgPath = getCategoryImagePath(slug);
+    const count = PRODUCTS.filter((p) => p.category === slug).length;
+    return `
+      <img class="category-hero-bg" src="${imgPath}" alt="" width="1440" height="480" fetchpriority="high">
+      <div class="category-hero-overlay" aria-hidden="true"></div>
+      <div class="container category-hero-content">
+        <nav class="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
+          <a href="${basePath}/index.html">Home</a>
+          <span>/</span>
+          <span>${category.name}</span>
+        </nav>
+        <div class="category-hero-meta">
+          <span class="category-hero-icon">${renderCategoryIcon(slug)}</span>
+          <span class="category-hero-count">${count} product${count !== 1 ? "s" : ""}</span>
+        </div>
+        <h1>${category.name}</h1>
+        <p>${category.description}</p>
       </div>
     `;
   }
@@ -422,26 +448,8 @@
     const category = getCategory(slug);
     if (!category) return;
 
-    const titleEl = document.querySelector("[data-category-title]");
-    const descEl = document.querySelector("[data-category-desc]");
-    const breadcrumbEl = document.querySelector("[data-breadcrumb-category]");
-    const headerEl = document.querySelector(".category-header");
-
-    if (titleEl) titleEl.textContent = category.name;
-    if (descEl) descEl.textContent = category.description;
-    if (breadcrumbEl) breadcrumbEl.textContent = category.name;
-
-    if (headerEl && titleEl && descEl) {
-      const titleText = titleEl.textContent;
-      const descText = descEl.textContent;
-      headerEl.innerHTML = `
-        <div class="category-header-icon">${renderCategoryIcon(slug)}</div>
-        <div class="category-header-text">
-          <h1 data-category-title>${titleText}</h1>
-          <p data-category-desc>${descText}</p>
-        </div>
-      `;
-    }
+    const heroEl = document.querySelector("[data-category-hero]");
+    if (heroEl) heroEl.innerHTML = renderCategoryHero(category, slug);
 
     document.title = `${category.name} — Gifting Catalogue`;
 
@@ -462,7 +470,13 @@
           ${renderCategoryIcon(cat.slug)} ${cat.name}
         </a>`
     ).join("");
-    if (chipsContainer) chipsContainer.innerHTML = chipLinks;
+    if (chipsContainer) {
+      chipsContainer.innerHTML = chipLinks;
+      const activeChip = chipsContainer.querySelector(".category-chip.active");
+      if (activeChip) {
+        activeChip.scrollIntoView({ inline: "center", block: "nearest" });
+      }
+    }
 
     const grid = document.querySelector("[data-product-grid]");
     const searchInput = document.querySelector("[data-product-search]");
